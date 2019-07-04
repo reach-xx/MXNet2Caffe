@@ -32,7 +32,7 @@ def Convolution(txt_file, info):
     #pprint.pprint(info)  
   if fuzzy_haskey(info['params'], 'bias'):
     bias_term = 'true'  
-  elif info[attrstr].has_key('no_bias') and info['attrs']['no_bias'] == 'True':
+  elif 'no_bias' in info[attrstr] and info['attrs']['no_bias'] == 'True':
     bias_term = 'false'  
   else:
     bias_term = 'true'
@@ -44,15 +44,15 @@ def Convolution(txt_file, info):
   txt_file.write('	convolution_param {\n')
   txt_file.write('		num_output: %s\n'   % info[attrstr]['num_filter'])
   txt_file.write('		kernel_size: %s\n'  % info[attrstr]['kernel'].split('(')[1].split(',')[0]) # TODO
-  if info[attrstr].has_key('pad'):
+  if 'pad' in info[attrstr]:
     txt_file.write('		pad: %s\n'          % info[attrstr]['pad'].split('(')[1].split(',')[0]) # TODO
-  if info[attrstr].has_key('num_group'):
+  if 'num_group' in info[attrstr]:
     txt_file.write('		group: %s\n'        % info[attrstr]['num_group'])
-  if info[attrstr].has_key('stride'):
+  if 'stride' in info[attrstr]:
     txt_file.write('		stride: %s\n'       % info[attrstr]['stride'].split('(')[1].split(',')[0])
   txt_file.write('		bias_term: %s\n'    % bias_term)
   txt_file.write('	}\n')
-  if 'share' in info.keys() and info['share']:  
+  if 'share' in list(info.keys()) and info['share']:  
     txt_file.write('	param {\n')
     txt_file.write('	  name: "%s"\n'     % info['params'][0])
     txt_file.write('	}\n')
@@ -71,11 +71,11 @@ def BatchNorm(txt_file, info):
   txt_file.write('  type: "BatchNorm"\n')
   txt_file.write('  batch_norm_param {\n')
   txt_file.write('    use_global_stats: true\n')        # TODO
-  if info[attrstr].has_key('momentum'):
+  if 'momentum' in info[attrstr]:
     txt_file.write('    moving_average_fraction: %s\n' % info[attrstr]['momentum'])
   else:
     txt_file.write('    moving_average_fraction: 0.9\n')
-  if info[attrstr].has_key('eps'):
+  if 'eps' in info[attrstr]:
     txt_file.write('    eps: %s\n' % info[attrstr]['eps'])
   else:
     txt_file.write('    eps: 0.001\n')                   
@@ -137,12 +137,12 @@ def Pooling(txt_file, info):
   txt_file.write('  type: "Pooling"\n')
   txt_file.write('  pooling_param {\n')
   txt_file.write('    pool: %s\n'         % pool_type)       # TODO  
-  if info[attrstr].has_key('global_pool') and info[attrstr]['global_pool'] == 'True':
+  if 'global_pool' in info[attrstr] and info[attrstr]['global_pool'] == 'True':
     txt_file.write('    global_pooling: true\n')
   else:
     txt_file.write('    kernel_size: %s\n'  % info[attrstr]['kernel'].split('(')[1].split(',')[0])
     txt_file.write('    stride: %s\n'       % info[attrstr]['stride'].split('(')[1].split(',')[0])
-    if info[attrstr].has_key('pad'):
+    if 'pad' in info[attrstr]:
       txt_file.write('    pad: %s\n'          % info[attrstr]['pad'].split('(')[1].split(',')[0])
   txt_file.write('  }\n')
   txt_file.write('}\n')
@@ -236,7 +236,7 @@ def write_node(txt_file, info):
     else:
         #pprint.pprint(info)
         #sys.exit("Warning!  Unknown mxnet op:{}".format(info['op']))
-        print "Warning! Skip Unknown mxnet op:{}".format(info['op'])
+        print("Warning! Skip Unknown mxnet op:{}".format(info['op']))
 
 
 

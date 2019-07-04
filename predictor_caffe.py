@@ -12,3 +12,8 @@ class PredictorCaffe:
         
     def blob_by_name(self, blobname):
         return self.net.blobs[blobname]
+
+    def list_blob_name(self):
+        # for each layer, show the output shape
+        for layer_name, blob in self.net.blobs.items():
+            print(layer_name + '\t' + str(blob.data.shape))

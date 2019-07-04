@@ -6,5 +6,5 @@ def load_model_sym(mprefix, epoch):
     return sym
 
 if __name__ == "__main__":
-    sym = load_model_sym("model_mxnet/face/facega", 0)
+    sym = load_model_sym("model-r100-ii/model", 0)
     mx.viz.plot_network(sym)        
